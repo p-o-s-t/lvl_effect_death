@@ -1,1 +1,1 @@
-# DE&TH Detectio Repo
+# DE&TH Detection Repo
