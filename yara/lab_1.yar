@@ -8,7 +8,7 @@ rule SUSP_Trojan_WIN_QakBot_Dec25
         created = "2025-12-10"
         last_modified = "2025-12-10"
         version = "1.0"
-        sha256 = "6a8557a2f8e1338e6edb2a07c345882389230ea24ffeb741a59621b7e8b56c59"
+        hash = "6a8557a2f8e1338e6edb2a07c345882389230ea24ffeb741a59621b7e8b56c59"
     strings:
         $x1 = "Updt" fullword
  
