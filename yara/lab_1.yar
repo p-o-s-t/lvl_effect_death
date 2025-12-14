@@ -1,6 +1,6 @@
 import "pe"
 
-rule SUSP_Trojan_WIN_QakBot_Dec25
+rule SUSP_Trojan_QakBot_Dec25
 {
     meta:
         description = "YARA rule for lab_1 in Level Effect DE&TH course to detect Qbot/Qakbot malware that has trojanized the GNU Image Manipulation Program (GIMP) Drawing Kit for a Windows system."
