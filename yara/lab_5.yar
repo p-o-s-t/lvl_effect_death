@@ -1,4 +1,4 @@
-rule MAL_PikaBot_Jan26 
+rule PUA_Qihoo360_PikaBot_Jan26 
 {
     meta:
         description = "YARA rule for yara_lab_5 in Level Effect DE&TH course to detect DarkGate for a Windows system."
@@ -8,9 +8,12 @@ rule MAL_PikaBot_Jan26
         version = "1.0"
         hash = ""
     strings:
-        $s
+        $s1 = "C:\\vmagent_new\\bin\\joblist\\498883\\out\\Release\\QHFileSmasher.pdb" fullword
+
     condition:
         uint16(0)
-    
+        and filesize < 4MB
+        and 1 of ($s*)
+
 
 }

@@ -10,13 +10,13 @@ rule SUSP_Trojan_QakBot_Dec25
         version = "1.0"
         hash = "6a8557a2f8e1338e6edb2a07c345882389230ea24ffeb741a59621b7e8b56c59"
     strings:
-        $_x1 = "Updt" fullword
  
         $s1 = "GetForegroundWindow"
         $s2 = "MapVirtualKeyA"
         $s3 = "GetClipboardData"
+        $_s4 = "Updt" fullword
 
-        $a5 = "GIMP Drawing Kit" wide
+        $a1 = "GIMP Drawing Kit" wide
     condition:
         uint16(0) == 0x5a4d 
         and not pe.is_signed 
