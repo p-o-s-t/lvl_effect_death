@@ -1,11 +1,11 @@
-rule MAL_RAT_Aysnc_Dec25 : rat 
+rule MAL_RAT_Aysnc_Dec25
 {
     meta:
         description = "YARA rule for yara_lab_2 in Level Effect DE&TH course to detect Async Remote Access Trojan for a Windows system."
         author = "post"
         created = "2026-01-06"
-        last_modified = "2026-01-06"
-        version = "1.0"
+        last_modified = "2026-01-15"
+        version = "1.1"
         hash = "8579bd550e62d5c01e34f4fefc627374d7598d62aed57dda018ae2804b1219fb"
     strings:
         $x1 = "\\nuR\\noisreVtnerruC\\swodniW\\tfosorciM\\erawtfoS" wide 
@@ -25,7 +25,7 @@ rule MAL_RAT_Aysnc_Dec25 : rat
         $s12 = "wallet" wide nocase
     condition:
         uint16(0) == 0x5a4d 
-        and filesize < 200KB 
+        and filesize < 64KB
         and all of ($x*) 
         and 6 of ($s*) 
         and #s12 > 4

@@ -6,15 +6,15 @@ rule MAL_CRIME_DarkGate_Jan26
         description = "YARA rule for yara_lab_3 in Level Effect DE&TH course to detect DarkGate for a Windows system."
         author = "post"
         created = "2026-01-06"
-        last_modified = "2026-01-06"
-        version = "1.0"
-        hash = ""
+        last_modified = "2026-01-15"
+        version = "1.1"
+        hash = "0efb25b41efef47892a1ed5dfbea4a8374189593217929ef6c46724d0580db23"
     strings:
         $anti_debug = "[AntiDebug]"
         $vm_check1 = "\\System32\\vmGuestLib.dll" fullword
         $vm_check2 = "\\vboxmrxnp.dll" fullword
         $dos_stub = "!This program cannot be run in DOS mode." fullword
-        
+
         $x1 = "C:\\Users\\Alex\\Documents\\repos\\repos\\t34_new\\users\\MAGA\\cryptbase_meow\\x64\\Release\\cryptbase.pdb" fullword
         $x2 = "rundll32 cleanhelper.dll T34 /k funtic321 1" fullword
         $x3 = "C:\\Users\\Alex\\Documents\\repos\\repos\\t34_new\\users\\my\\selfupdate\\Dropper\\wldp\\x64\\Release\\wldp.pdb" fullword
@@ -26,8 +26,8 @@ rule MAL_CRIME_DarkGate_Jan26
 
         $a1 = "DESKTOP-"
     condition:
-        uint16(0) == 0x5a4d 
-        and filesize < 3MB
+        pe.is_pe 
+        and filesize < 1300KB
         and not pe.is_signed
         and #anti_debug > 15
         and all of ($vm_check*)
