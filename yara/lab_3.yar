@@ -1,6 +1,6 @@
 import "pe"
 
-rule MAL_DarkGate_Jan26 
+rule MAL_CRIME_DarkGate_Jan26 
 {
     meta:
         description = "YARA rule for yara_lab_3 in Level Effect DE&TH course to detect DarkGate for a Windows system."
