@@ -1,0 +1,53 @@
+
+# *************************************************************
+#
+# Level Effect DE&TH Class - Snort
+#
+# Created: 2026-01-18
+# Modified: 2026-01-18
+#
+# No licenses for any of the rules in this rulset.
+# This is specifically for educational and training purposes.
+# Feel free to use if you want, but YMMV.  
+#
+# SIDs for Lab 2 will use the range of 1000100 - 1000199 (doubt I'll use the whole range though)
+# The specific nefarious actor for this lab will be Astaroth
+#
+# Variables assume Snort configuration has been configured in your environment
+# Ex, $HOME_NET, $EXTERNAL_NET, $HTTP_PORTS
+#
+# *************************************************************
+
+alert http $EXTERNAL_NET $HTTP_PORTS -> $HOME_NET any (
+    msg:"HTTP Response contains transparent iframe with Base64 data which contains javascript";
+    flow:to_client, established;
+    file_data;
+    content:"iframe", fast_pattern;
+    content:"allowtransparency=\"true\"", within 40;
+    content:"base64,";
+    base64_decode:relative;
+    base64_data;
+    content:"javascript"; 
+    sid: 1000100; 
+    rev:1;
+    metadata:created_at 2026_01_18, updated_at 2026_01_18;
+)
+
+alert http $HOME_NET any -> $EXTERNAL_NET $HTTP_PORTS (
+    msg:"Domains associated with Astaroth (quick wins, not realistic)";
+    http_uri:host;
+    pcre:"/(assessirianricoadvocacia\.cloud|creditcardflyers\.com|sophiaemarlibuffetme\.link|felipeemarlimarketingl\.link|clus\.ga)/";
+    sid: 1000101; 
+    rev:1;
+    metadata:created_at 2026_01_18, updated_at 2026_01_18;
+)
+
+alert ssl $EXTERNAL_NET $HTTP_PORTS -> $HOME_NET any (
+    msg:"QBot Domain seen in Server Hello during TLS Handshake (Low Hanging Fruit, for practice)";
+
+
+    sid: 1000102; 
+    rev:1;
+    metadata:created_at 2026_01_18, updated_at 2026_01_18;
+)
+

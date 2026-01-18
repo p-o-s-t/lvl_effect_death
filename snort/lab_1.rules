@@ -1,0 +1,48 @@
+
+# *************************************************************
+#
+# Level Effect DE&TH Class - Snort
+#
+# Created: 2026-01-18
+# Modified: 2026-01-18
+#
+# No licenses for any of the rules in this rulset.
+# This is specifically for educational and training purposes.
+# Feel free to use if you want, but YMMV.  
+#
+# SIDs for Lab 1 will use the range of 1000000 - 1000099 (doubt I'll use the whole range though)
+# The specific nefarious actor for this lab will be QBot / QakBot
+#
+# Variables assume Snort configuration has been configured in your environment
+# Ex, $HOME_NET, $EXTERNAL_NET, $HTTP_PORTS
+#
+# *************************************************************
+
+alert tcp $HOME_NET any -> 98.178.242.28 any (
+    msg:"Possible QBot IPv4 address identified (Low Hanging Fruit, low confidence of MCA, for practice)"; 
+    sid: 1000000; 
+    rev:1;
+    metadata:created_at 2026_01_18, updated_at 2026_01_18;
+)
+
+alert ssl $HOME_NET any -> $EXTERNAL_NET $HTTP_PORTS (
+    msg:"Client Hello with no SNI in TLS1.2 Handshake";
+    ssl_version:tls1.2; 
+    ssl_state:client_hello; 
+    content:"*", offset 151; 
+    pcre:!"/[a-z\.\-]{4,}/"; 
+    classtype:bad-unknown; 
+    sid: 1000001; 
+    rev:1;
+    metadata:created_at 2026_01_18, updated_at 2026_01_18;
+)
+
+alert ssl $EXTERNAL_NET $HTTP_PORTS -> $HOME_NET any (
+    msg:"QBot Domain seen in Server Hello during TLS Handshake (Low Hanging Fruit, for practice)";
+    ssl_state:server_hello;
+    content:"fscej.org"; 
+    sid: 1000002; 
+    rev:1;
+    metadata:created_at 2026_01_18, updated_at 2026_01_18;
+    )
+
