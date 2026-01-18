@@ -18,8 +18,8 @@
 #
 # *************************************************************
 
-alert http $EXTERNAL_NET $HTTP_PORTS -> $HOME_NET any (
-    msg:"HTTP Response contains transparent iframe with Base64 data which contains javascript";
+alert http (
+    msg:"HTTP Response with transparent iframe with Base64 data which contains javascript";
     flow:to_client, established;
     file_data;
     content:"iframe", fast_pattern;
@@ -33,8 +33,9 @@ alert http $EXTERNAL_NET $HTTP_PORTS -> $HOME_NET any (
     metadata:created_at 2026_01_18, updated_at 2026_01_18;
 )
 
-alert http $HOME_NET any -> $EXTERNAL_NET $HTTP_PORTS (
-    msg:"Domains associated with Astaroth (quick wins, not realistic)";
+block http (
+    msg:"HTTP Request with Hostname associated with Astaroth (quick wins, not realistic)";
+    flow:to_server,established;
     http_uri:host;
     pcre:"/(assessirianricoadvocacia\.cloud|creditcardflyers\.com|sophiaemarlibuffetme\.link|felipeemarlimarketingl\.link|clus\.ga)/";
     sid: 1000101; 
@@ -42,12 +43,96 @@ alert http $HOME_NET any -> $EXTERNAL_NET $HTTP_PORTS (
     metadata:created_at 2026_01_18, updated_at 2026_01_18;
 )
 
-alert ssl $EXTERNAL_NET $HTTP_PORTS -> $HOME_NET any (
-    msg:"QBot Domain seen in Server Hello during TLS Handshake (Low Hanging Fruit, for practice)";
-
-
-    sid: 1000102; 
+alert dns (
+    msg:"DNS Query for suspicious .clus.ga domain";
+    content:"|01|", offset 2, depth 1;
+    content:"|00 01 00 00 00 00 00|", distance 1, within 24;
+    content:"|04|clus|02|ga";
+    sid: 1000103; 
     rev:1;
     metadata:created_at 2026_01_18, updated_at 2026_01_18;
 )
 
+alert dns (
+    msg:"DNS Query for suspicious .assessirianricoadvocacia.cloud domain";
+    content:"|01|", offset 2, depth 1;
+    content:"|00 01 00 00 00 00 00|", distance 1, within 24;
+    content:"|18|assessirianricoadvocacia|05|cloud";
+    sid: 1000104; 
+    rev:1;
+    metadata:created_at 2026_01_18, updated_at 2026_01_18;
+)
+
+alert dns (
+    msg:"DNS Query for suspicious .creditcardflyers.com domain";
+    content:"|01|", offset 2, depth 1;
+    content:"|00 01 00 00 00 00 00|", distance 1, within 24;
+    content:"|10|creditcardflyers|03|com";
+    sid: 1000105; 
+    rev:1;
+    metadata:created_at 2026_01_18, updated_at 2026_01_18;
+)
+
+alert dns (
+    msg:"DNS Query for suspicious .sophiaemarlibuffetme.link domain";
+    content:"|01|", offset 2, depth 1;
+    content:"|00 01 00 00 00 00 00|", distance 1, within 24;
+    content:"|14|sophiaemarlibuffetme|04|link";
+    sid: 1000106; 
+    rev:1;
+    metadata:created_at 2026_01_18, updated_at 2026_01_18;
+)
+
+
+alert dns (
+    msg:"DNS Query for suspicious .felipeemarlimarketingl.link domain";
+    content:"|01|", offset 2, depth 1;
+    content:"|00 01 00 00 00 00 00|", distance 1, within 24;
+    content:"|16|felipeemarlimarketingl|04|link";
+    sid: 1000107; 
+    rev:1;
+    metadata:created_at 2026_01_18, updated_at 2026_01_18;
+)
+
+alert dns (
+    msg:"DNS Query for .yandex.ru domain";
+    content:"|01|", offset 2, depth 1;
+    content:"|00 01 00 00 00 00 00|", distance 1, within 24;
+    content:"|06|yandex|02|ru";
+    sid: 1000108; 
+    rev:1;
+    metadata:created_at 2026_01_18, updated_at 2026_01_18;
+)
+
+drop http $HOME_NET any -> $EXTERNAL_NET $HTTP_PORTS (
+    msg:"HTTP Request with Microsoft BITS User-Agent and non-Microsoft domains";
+    flow:to_server, established;
+    http_header:field user-agent;
+    content:"Microsoft BITS/", fast_pattern;
+    http_header:field host;
+    pcre:!"/\.((windowsupdate|microsoft)\.com$|edgesuite\.net$)/";
+    sid: 1000109; 
+    rev:1;
+    metadata:created_at 2026_01_18, updated_at 2026_01_18;
+)
+
+alert http (
+    msg:"HTTP Response with a PE File download and Filename extension is mismatched";
+    flow:to_client, established;
+    file_data;
+    content:"MZ", fast_pattern;
+    http_header:field content-disposition;
+    pcre:!"/\.(dll|exe|com|sys|acm|ax|cpl|drv|efi|mui|ocx|scr|tsp|msstyles)\"$/i";
+    sid:1000110; 
+    rev:1;
+)
+
+block http (
+    msg:"HTTP Response with a XML payload that creates a WScript.Shell Object";
+    flow:to_client, established;
+    file_data;
+    content:"<?xml", fast_pattern;
+    content: "new ActiveXObject(\"WScript.Shell\");";
+    sid:1000111; 
+    rev:1;
+)

@@ -1,0 +1,50 @@
+# *************************************************************
+#
+# Level Effect DE&TH Class - Snort
+#
+# Created: 2026-01-18
+# Modified: 2026-01-18
+#
+# No licenses for any of the rules in this rulset.
+# This is specifically for educational and training purposes.
+# Feel free to use if you want, but YMMV.  
+#
+# SIDs for Lab 3 will use the range of 1000200 - 1000299 (doubt I'll use the whole range though)
+# The specific nefarious actor for this lab will be IcedID and Cobalt Strike.
+#
+# Variables assume Snort configuration has been configured in your environment
+# Ex, $HOME_NET, $EXTERNAL_NET, $HTTP_PORTS
+#
+# *************************************************************
+
+log http (
+    msg:"HTTP Request without user-agent header";
+    flow:to_server, established;
+    http_header;
+    content:!"User-Agent: ";
+    sid: 1000200; 
+    rev:1;
+    metadata:created_at 2026_01_18, updated_at 2026_01_18;
+)
+
+alert ssl (
+    msg:"SSL/TLS Client Hello SNI with CS Domains";
+    ssl_version:tls1.2,tls1.3; 
+    ssl_state:client_hello; 
+    content:"*", offset 186; 
+    pcre:"/(alohasockstaina|rehazosipa|ultomductingbig|wafefuvuko|wiandukachelly)\.(com|pro)/"; 
+    sid: 1000201; 
+    rev:1;
+    metadata:created_at 2026_01_18, updated_at 2026_01_18;
+)
+
+alert file (
+    msg:"";
+    flow:to_client, established;
+    file_data;
+    content:"MZ", depth 2;
+    content:"";
+    sid: 1000202; 
+    rev:1;
+    metadata:created_at 2026_01_18, updated_at 2026_01_18;
+)

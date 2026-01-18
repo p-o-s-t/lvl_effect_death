@@ -1,0 +1,32 @@
+# *************************************************************
+#
+# Level Effect DE&TH Class - Suricata (Extracirricular)
+#
+# Created: 2026-01-18
+# Modified: 2026-01-18
+#
+# No licenses for any of the rules in this rulset.
+# This is specifically for educational and training purposes.
+# Feel free to use if you want, but YMMV.  
+#
+# SIDs for Lab 3 Extra Work will use the range of 1000300 - 1000399
+# The specific nefarious actor for this lab will be IcedID and Cobalt Strike.
+#
+# Variables assume Snort configuration has been configured in your environment
+# Ex, $HOME_NET, $EXTERNAL_NET, $HTTP_PORTS
+#
+# *************************************************************
+
+alert tls (
+    msg:"Cobalt Strike JA3S hash"; 
+    ja3s.hash; content:"40c63d2de6442242a6b0abc7e768645f"; 
+    sid: 1000300; 
+    rev:1;
+)
+
+alert tls (
+        msg:"C2 server JA3S hash"; 
+    ja3s.hash; content:"15af977ce25de452b96affa2addb1036";
+    sid: 1000301; 
+    rev:1;
+)
