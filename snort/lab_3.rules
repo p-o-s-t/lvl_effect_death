@@ -39,7 +39,7 @@ alert ssl (
 )
 
 alert file (
-    msg:"";
+    msg:"Suspicious PE file";
     flow:to_client, established;
     file_data;
     content:"MZ", depth 2;
