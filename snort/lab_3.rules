@@ -43,7 +43,7 @@ alert file (
     flow:to_client, established;
     file_data;
     content:"MZ", depth 2;
-    content:"";
+    content:"Ladies and Gentlemen";
     sid: 1000202; 
     rev:1;
     metadata:created_at 2026_01_18, updated_at 2026_01_18;
