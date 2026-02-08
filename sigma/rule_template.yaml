@@ -1,0 +1,40 @@
+title: # Descriptive yet unalarming unless you have very high confidence of malicious activity.
+id: # Create a unique GUID for this detector i.e. https://www.guidgenerator.com/
+name: # Unique human-readable name that can be used instead of the ID as a reference for correlation rules.  Should improve readability of correlation rules.
+taxonomy: #Define taxonomy used. Defaults to Sigma.
+status: #Select one: stable, test, experimental, deprecated, unsupported. NOTE: All new rules must start with experimental
+description: # Try to follow the flow of "What are we detecting, how is it used, why is it (bad|interesting|noteworthy)"
+license: # License of the rule according the SPDX ID specification
+author: # Your name or handle.  Sepearate multiple authors with a comma (,)
+references:
+    - # References ensure our rules have some source documentation as to what we're trying to accomplish.
+    - # DO NOT provide MITRE ATT&ACK TTP reference URLs, put those in the "tags" section 
+    - # The more references the better as you may not remember why you made a rule when reviewing in the future.
+date: YYYY-MM-DD # Creation date
+modified: YYYY-MM-DD # Optional unless the rule is being updated/modified.
+logsource:
+    category: # Specifies logs made by certain “groups” of products, such as firewall, web, dns, antivirus
+    product: # Specifies logs made by certain products - think broad. examples include windows, apache, check point fw1, windows, linux, macos
+    service: # Specifies log subsets of the product, such as sshd, applocker, ps_script
+detection:
+    selection: # You can use any name for these variables and it may benefit you to use descriptive terms in your rules.
+        - # Match Logic
+    filter:
+        - # Exclusion Logic
+condition: selection and not filter
+fields:
+    - # A list of log fields 
+    - # that could be interesting in further analysis of the event 
+    - # and should be displayed to the analyst.
+falsepositives:
+    - # Lists any false positives by generalized category i.e. RMM Tools, Administrators etc. 
+level: # low/medium/high/critical
+tags:
+    - # You can add any tag you wish, however, you should put MITRE ATT&CK TTPs, Software, and Group IDs when relevant. 
+    - # attack.t1548.002
+    - # attack.privilege_escalation
+    - # attack.s0129
+    - # attack.g1024
+    - # lolbas
+    - # ransomware
+scope: # intended scopes of the rule. Example, define if a rule is meant to trigger on specific type of machine with specific software
