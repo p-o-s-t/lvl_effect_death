@@ -1,6 +1,6 @@
 title: Control.exe Used to Spawn Process from Alternate Data Stream
 id: ba30edad-77f8-45d5-ac8c-9649a0fed50c
-name: File in ADS Executed by Control.exe
+name: control_exe_used_to_spawn_process_from_ads
 status: experimental #Select one: stable, test, experimental, deprecated, unsupported. NOTE: All new rules must start with experimental
 description: Detect usage of control.exe to execute a file stored in the Alternate Data Stream (ADS)
 author: p-o-s-t
@@ -24,6 +24,7 @@ fields:
     - CurrentDirectory
 level: medium # low/medium/high/critical
 tags:
+    - attack.execution
     - attack.t1218.002
 scope:
     - Windows Vista and later

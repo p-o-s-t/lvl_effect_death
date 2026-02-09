@@ -1,0 +1,26 @@
+title: Whois Command Used to Upload Data - Linux
+id: 8ecb6458-83a4-4849-8c98-a764522e953d
+name: whois_command_used_to_upload_data_linux
+status: experimental
+description: |
+    Detect usage of the whois command to upload data to a remote server. The whois command could possibly 
+    be abused to exfiltrate data in the query and sending it to a remote server controlled by an attacker. 
+    Detection rule for Lab 2 of Level Effect DE&ATH course.
+author: p-o-s-t
+references:
+    - https://gtfobins.org/gtfobins/whois/
+    - https://manpages.ubuntu.com/manpages/resolute/en/man1/whois.1.html 
+date: 2026-02-09
+logsource:
+    category: process_creation
+    product: linux
+detection:
+    selection:
+        Image|endswith: '/whois'
+        CommandLine|contains: '-h'
+    condition: selection
+level: low
+tags:
+    - attack.data_exfiltration
+    - attack.t1048
+    - attack.t1567
