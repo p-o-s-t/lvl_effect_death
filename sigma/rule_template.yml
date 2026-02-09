@@ -21,7 +21,7 @@ detection:
         - # Match Logic
     filter:
         - # Exclusion Logic
-condition: selection and not filter
+    condition: selection and not filter
 fields:
     - # A list of log fields 
     - # that could be interesting in further analysis of the event 
@@ -37,4 +37,5 @@ tags:
     - # attack.g1024
     - # lolbas
     - # ransomware
-scope: # intended scopes of the rule. Example, define if a rule is meant to trigger on specific type of machine with specific software
+scope:
+    - # intended scopes of the rule. Example, define if a rule is meant to trigger on specific type of machine with specific software
