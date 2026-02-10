@@ -1,0 +1,92 @@
+title: Enable Macros in Microsoft Outlook - Registry
+id: 634eb4a3-9f37-45fb-a5d4-6570358ac02a
+name: registry_enable_macros_outlook
+status: experimental #Select one: stable, test, experimental, deprecated, unsupported. NOTE: All new rules must start with experimental
+description: |
+    Detects enabling of all macros in Microsoft Outlook using the Windows Registry.
+    Written for Lab 3 of Level Effect DE&TH course.
+author: p-o-s-t
+date: 2026-02-09
+logsource:
+    category: registry
+    product: windows
+detection:
+    selection:
+        RegistryPath: 'HKEY_CURRENT_USER\Software\Microsoft\Office\16.0\Outlook\Security'
+        ValueName: 'Level'
+        Value: 1
+    condition: selection
+falsepositives:
+    - Unknown
+level: high
+---
+title: Disable Content Download Warning - Registry
+id: 7c9d5f4e-3b2a-4f6e-8f1a-2d3e4f5a6b7c
+name: registry_disable_content_download_warning
+status: experimental #Select one: stable, test, experimental, deprecated, unsupported. NOTE: All new rules must start with experimental
+description: |
+    Detects disabling of content download warning in Microsoft Outlook using the Windows Registry.
+    Written for Lab 3 of Level Effect DE&TH course.
+author: p-o-s-t
+date: 2026-02-09
+logsource:
+    category: registry
+    product: windows
+detection:
+    selection:
+        RegistryPath: 'HKEY_CURRENT_USER\Software\Microsoft\Office\16.0\Outlook\Options\General'
+        ValueName: 'PONT_STRING'
+        Value: 0x20
+    condition: selection
+falsepositives:
+    - Unknown
+level: high
+---
+title: Enable Load Macro Provider on Boot - Registry
+id: d2e3f4a5-b6c7-8d9e-0f1a-2b3c4d5e6f7g
+name: registry_enable_load_macro_provider_on_boot
+status: experimental #Select one: stable, test, experimental, deprecated, unsupported. NOTE: All new rules must start with experimental
+description: |
+    Detects enabling of Load Macro Provider on Boot in Microsoft Outlook using the Windows Registry.
+    Written for Lab 3 of Level Effect DE&TH course.
+author: p-o-s-t
+references:
+    - https://www.zscaler.com/blogs/security-research/apt28-leverages-cve-2026-21509-operation-neusploit
+date: 2026-02-09
+logsource:
+    category: registry
+    product: windows
+detection:
+    selection:
+        RegistryPath: 'HKEY_CURRENT_USER\Software\Microsoft\Office\16.0\Outlook'
+        ValueName: 'LoadMacroProviderOnBoot'
+        Value: 1
+    condition: selection
+falsepositives:
+    - Unknown
+level: high
+---
+title: Correlation - MiniDoor - Registry Modifications of Microsoft Outlook
+id: b1f4d3e2-5c6a-4e2b-9f3a-8c9e7d2f4a1b
+status: experimental
+reference:
+    - https://www.zscaler.com/blogs/security-research/apt28-leverages-cve-2026-21509-operation-neusploit
+correlation:
+    type: temporal
+    rules:
+        - registry_enable_macros_outlook
+        - registry_disable_content_download_warning
+        - registry_enable_load_macro_provider_on_boot
+    group-by:
+        - ComputerName
+        - User
+    timespan: 5m
+description: |
+    Temporal Correlation covering a 5 minute timespan to detect the observed registry modifications targeting Microsoft Outlook by the MiniDoor dropper,
+    in order to steal email from Microsoft Outlook.  Written for Lab 3 of Level Effect DE&TH course.
+author: p-o-s-t
+date: 2026-02-09
+tags:
+    - attack.defense_evasion
+    - attack.t1562.001
+
