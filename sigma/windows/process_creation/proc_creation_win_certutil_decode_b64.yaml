@@ -1,9 +1,9 @@
 title: Use CertUtil to Decode Base64
 id: af2639fa-c871-4e18-8241-47177fa346ff
-status: experimental 
+status: experimental
 description: |
     Detects usage of Certutil.exe to decode a Base64 encoded string.
-    Written for CI/CD section of Level Effect DE&TH course. Convert to Splunk for this test.
+    Written for CI/CD lesson in Level Effect DE&TH course. Convert to Splunk for this test.
 author: p-o-s-t
 date: 2026-03-23
 modified: 2026-03-23
