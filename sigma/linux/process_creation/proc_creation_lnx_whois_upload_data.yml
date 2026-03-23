@@ -21,6 +21,6 @@ detection:
     condition: selection
 level: low
 tags:
-    - attack.data_exfiltration
+    - attack.exfiltration
     - attack.t1048
     - attack.t1567
