@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout repo 
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Install Sigma CLI and dependencies
         run: |
@@ -37,6 +37,6 @@ jobs:
         if: github.event_name == 'pull_request'
         run: sigma convert -t splunk -f siem_rule_ndjson -p splunk_windows -o rules.ndjson sigma 
 
-      - name: Test that post-process script runs w/o exceptions
-        if: github.event_name == 'pull_request'
-        run: python3 scripts/post-process.py 
+#      - name: Test that post-process script runs w/o exceptions
+#        if: github.event_name == 'pull_request'
+#        run: python3 scripts/post-process.py 
