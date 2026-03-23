@@ -32,7 +32,7 @@ jobs:
 
       - name: Install Sigma CLI backends
         if: github.event_name == 'pull_request'
-        run: sigma plugin install elasticsearch
+        run: sigma plugin install splunk
 
       - name: Test conversion
         if: github.event_name == 'pull_request'
