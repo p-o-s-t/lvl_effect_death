@@ -1,6 +1,6 @@
 title: Enable Macros in Microsoft Outlook - Registry
 id: 634eb4a3-9f37-45fb-a5d4-6570358ac02a
-name: registry_enable_macros_outlook
+name: enable_macros_outlook
 status: experimental #Select one: stable, test, experimental, deprecated, unsupported. NOTE: All new rules must start with experimental
 description: |
     Detects enabling of all macros in Microsoft Outlook using the Windows Registry.
@@ -22,7 +22,7 @@ level: high
 ---
 title: Disable Content Download Warning - Registry
 id: 7c9d5f4e-3b2a-4f6e-8f1a-2d3e4f5a6b7c
-name: registry_disable_content_download_warning
+name: disable_content_download_warning
 status: experimental #Select one: stable, test, experimental, deprecated, unsupported. NOTE: All new rules must start with experimental
 description: |
     Detects disabling of content download warning in Microsoft Outlook using the Windows Registry.
@@ -43,8 +43,8 @@ falsepositives:
 level: high
 ---
 title: Enable Load Macro Provider on Boot - Registry
-id: d2e3f4a5-b6c7-8d9e-0f1a-2b3c4d5e6f7g
-name: registry_enable_load_macro_provider_on_boot
+id: 9fe93dc2-c95d-432d-8683-0f21dbd76f56
+name: enable_load_macro_provider_on_boot
 status: experimental #Select one: stable, test, experimental, deprecated, unsupported. NOTE: All new rules must start with experimental
 description: |
     Detects enabling of Load Macro Provider on Boot in Microsoft Outlook using the Windows Registry.
@@ -74,9 +74,9 @@ reference:
 correlation:
     type: temporal
     rules:
-        - registry_enable_macros_outlook
-        - registry_disable_content_download_warning
-        - registry_enable_load_macro_provider_on_boot
+        - enable_macros_outlook
+        - disable_content_download_warning
+        - enable_load_macro_provider_on_boot
     group-by:
         - ComputerName
         - User
@@ -87,6 +87,6 @@ description: |
 author: p-o-s-t
 date: 2026-02-09
 tags:
-    - attack.defense_evasion
+    - attack.defense-evasion
     - attack.t1562.001
 

@@ -1,6 +1,6 @@
 title: Use CertUtil to Decode Base64
 id: af2639fa-c871-4e18-8241-47177fa346ff
-status: experimental #Select one: stable, test, experimental, deprecated, unsupported. NOTE: All new rules must start with experimental
+status: experimental 
 description: |
     Detects usage of Certutil.exe to decode a Base64 encoded string.
     Written for CI/CD section of Level Effect DE&TH course.
