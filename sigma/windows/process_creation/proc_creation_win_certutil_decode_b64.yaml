@@ -6,6 +6,7 @@ description: |
     Written for CI/CD section of Level Effect DE&TH course. Convert to Splunk for this test.
 author: p-o-s-t
 date: 2026-03-23
+modified: 2026-03-23
 logsource:
     category: process
     product: windows
