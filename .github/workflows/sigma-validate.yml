@@ -32,11 +32,11 @@ jobs:
 
       - name: Install Sigma CLI backends
         if: github.event_name == 'pull_request'
-        run: sigma plugin install splunk sysmon windows
+        run: sigma plugin install elasticsearch
 
       - name: Test conversion
         if: github.event_name == 'pull_request'
-        run: sigma convert -t splunk -f siem_rule_ndjson -p splunk_windows -o rules.ndjson sigma 
+        run: sigma convert -t splunk -p splunk_windows -f default sigma 
 
 #      - name: Test that post-process script runs w/o exceptions
 #        if: github.event_name == 'pull_request'
