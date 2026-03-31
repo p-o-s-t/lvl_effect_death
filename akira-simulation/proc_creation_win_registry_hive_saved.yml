@@ -1,0 +1,26 @@
+title: Windows Registry Hive Saved
+id: a7e63dd8-e4ef-4fc4-a1ec-59afb443cf67
+description: |
+  Detects registry executable saving a hive to a file.
+  This may indicate an adversary performing discovery on the host and network to gather information about the environment.
+status: experimental
+logsource:
+  category: process_creation
+  product: windows
+tags:
+  - attack.collection
+  - attack.t1005
+selection:
+  selection_reg:
+    Image|endswith: '\reg.exe'
+    CommandLine|contains:
+      - 'save'
+  selection_root_keys:
+    CommandLine|contains:
+      - 'HKLM'
+      - 'HKCU'
+      - 'HKCR'
+      - 'HKU'
+      - 'HKCC'
+  condition: selection_reg and selection_root_keys
+level: low

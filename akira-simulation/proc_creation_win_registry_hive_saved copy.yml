@@ -1,0 +1,19 @@
+title: Potential Ransomware Note using cmd.exe
+id: 3ed7e911-fab6-4f3a-ac15-fda85a167852
+description: Detects possible ransomware note written to desktop of Windows host.
+status: experimental
+logsource:
+  category: process_creation
+  product: windows
+tags:
+  - attack.impact
+detection:
+  selection:
+    Image|endswith: '\cmd.exe'
+    CommandLine|contains|all:
+      - 'echo'
+      - '>'
+      - '%%USERPROFILE%%\Desktop'
+      - 'files'  
+  condition: selection
+level: medium
