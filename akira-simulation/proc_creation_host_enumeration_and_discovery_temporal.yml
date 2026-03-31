@@ -1,0 +1,124 @@
+title: Correlation - Potential Host and Network Enumeration
+id: 1f05fbd4-fc64-46d5-b127-0a8e6941f5c6
+description: Detects behavior of potential host and network enumeration from a windows host. This may indicate an adversary performing discovery on the host and network to gather information about the environment.
+status: experimental
+correlation:
+  type: temporal
+  rules:
+    - whoami_cmd
+    - nltest_cmd
+    - net_groups_cmd
+    - tasklist_cmd
+    - ipconfig_cmd
+    - netsh_cmd
+    - arp_cmd
+    - nbstat_cmd
+  group-by:
+    - Hostname
+    - User
+  timespan: 2m
+level: high
+tags:
+  - attack.discovery
+---
+title: whoami command
+name: whoami_cmd
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    Image|endswith: '\whoami.exe'
+  condition: selection
+---
+title: nltest command
+name: nltest_cmd
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    Image|endswith: '\nltest.exe'
+    CommandLine|contains:
+      - '/domain_trusts'
+      - '/trust_domains'
+  condition: selection
+---
+title: net groups command
+name: net_groups_cmd
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  local_groups:
+    Image|endswith:
+      - '\net.exe'
+      - '\net1.exe'
+    CommandLine|contains:
+      - 'localgroup'
+  domain_groups:
+    Image|endswith:
+      - '\net.exe'
+      - '\net1.exe'
+    CommandLine|contains|all:
+      - 'group' 
+      - '/domain'
+  condition: local_groups or domain_groups
+---
+title: tasklist command
+name: tasklist_cmd
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    Image|endswith: '\tasklist.exe'
+  condition: selection
+---
+title: ipconfig command
+name: ipconfig_cmd
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    Image|endswith: '\ipconfig.exe'
+  condition: selection
+---
+title: netsh command
+name: netsh_cmd
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    Image|endswith: '\netsh.exe'
+  condition: selection
+---
+title: arp command
+name: arp_cmd
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    Image|endswith: '\ARP.exe'
+  condition: selection
+---
+title: nbstat command
+name: nbstat_cmd
+logsource:
+  product: windows
+  service: security
+  category: process_creation
+detection:
+  selection:
+    Image|endswith: '\nbstat.exe'
+  condition: selection
